@@ -7,7 +7,11 @@
 
 <style>
 /* ================= 基础设置 ================= */
-* { box-sizing: border-box; }
+* { 
+  box-sizing: border-box; 
+  -webkit-tap-highlight-color: transparent; /* 移除移动端点击高亮 */
+  touch-action: manipulation; /* 禁用双击缩放，加快点击响应 */
+}
 
 body {
   margin: 0;
@@ -35,7 +39,12 @@ body {
   z-index: 10;
 }
 .card-wrapper.show-back { transform: rotateY(180deg) translateX(-160px); }
-@media (max-width: 600px) { .card-wrapper.show-back { transform: rotateY(180deg); } }
+@media (max-width: 600px) { 
+  .card-wrapper.show-back { 
+    transform: rotateY(180deg) translateX(0); /* 修复移动端卡片偏移 */
+    transform-origin: center center; /* 确保旋转中心在中间 */
+  } 
+}
 
 /* ================= 通用封面/封底样式 ================= */
 .cover-face {
@@ -43,6 +52,7 @@ body {
   border-radius: 12px; overflow: hidden;
   backface-visibility: hidden; -webkit-backface-visibility: hidden;
   box-shadow: 5px 10px 15px rgba(0,0,0,0.2);
+  cursor: pointer; /* 移动端显示点击指针 */
 }
 
 /* ================= 封面 (Front) ================= */
@@ -147,7 +157,10 @@ body {
 
 <canvas id="snowCanvas"></canvas>
 <button class="music-btn" onclick="toggleMusic(event)">🎵</button>
-<audio id="bgm" loop><source src="Santa_tell_me.mp3" type="audio/mp3"></audio>
+<!-- 替换音频链接 -->
+<audio id="bgm" loop preload="metadata">
+  <source src="https://raw.githubusercontent.com/marryhou990203-sys/christmas-card/refs/heads/main/Santa_tell_me.mp3" type="audio/mpeg">
+</audio>
 
 <div class="card-wrapper" id="card">
   
@@ -186,7 +199,11 @@ body {
   </div>
 
   <div class="cover-face back" onclick="resetCard()">
-    <video class="card-video" id="endVideo" loop muted playsinline><source src="christmas gif.mp4" type="video/mp4">Your browser does not support the video tag.</video>
+    <!-- 替换视频链接 + 增强移动端兼容 -->
+    <video class="card-video" id="endVideo" loop muted playsinline webkit-playsinline x5-playsinline>
+      <source src="https://raw.githubusercontent.com/marryhou990203-sys/christmas-card/refs/heads/main/christmas%20gif.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
   </div>
 
 </div>
